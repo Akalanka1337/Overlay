@@ -273,7 +273,7 @@ namespace X2295
 			m_vOldRect.right != vRect.right ||
 			m_vOldRect.bottom != vRect.bottom)
 		{
-			SetWindowPos(m_vWnd, HWND_TOPMOST, vPoint.x, vPoint.y, vRect.right, vRect.bottom, SWP_NOREDRAW);
+			SetWindowPos(m_vWnd, HWND_TOPMOST, vRect.left, vRect.top, vRect.right, vRect.bottom, SWP_NOREDRAW);
 			m_vOldRect = vRect;
 		}
 		return TRUE;
@@ -285,6 +285,37 @@ namespace X2295
 
 		vList->AddLine({ m_vRenderWidth / 2,m_vRenderHeight / 2 - (aSize + 1) }, { m_vRenderWidth / 2 ,m_vRenderHeight / 2 + (aSize + 1) }, aColor, 2);
 		vList->AddLine({ m_vRenderWidth / 2 - (aSize + 1),m_vRenderHeight / 2 }, { m_vRenderWidth / 2 + (aSize + 1)  ,m_vRenderHeight / 2 }, aColor, 2);
+	}
+
+	auto D3DOverlay::DrawEspBox(const ImVec2& aPos, const FLOAT aWidth, const FLOAT aHeight, ImU32 aColor, const FLOAT aLineWidth) -> VOID
+	{
+		auto vList = ImGui::GetBackgroundDrawList();
+
+		std::array<ImVec2, 4> vBoxLines{ aPos,ImVec2{aPos.x + aWidth,aPos.y},ImVec2{aPos.x + aWidth,aPos.y + aHeight},ImVec2{aPos.x,aPos.y + aHeight} };
+		vList->AddPolyline(vBoxLines.data(), vBoxLines.size(), aColor, true, 2);
+	}
+
+	auto D3DOverlay::DrawLine(const ImVec2& aPoint1, const ImVec2 aPoint2, ImU32 aColor, const FLOAT aLineWidth) -> VOID
+	{
+		auto vList = ImGui::GetBackgroundDrawList();
+		vList->AddLine(aPoint1, aPoint2, aColor, aLineWidth);
+	}
+
+	auto D3DOverlay::DrawCircle(const ImVec2& aPoint, const FLOAT aR, ImU32 aColor, const FLOAT aLineWidth) -> VOID
+	{
+		auto vList = ImGui::GetBackgroundDrawList();
+		vList->AddCircle(aPoint, aR, aColor, 120, aLineWidth);
+	}
+
+	auto D3DOverlay::DrawString(const ImVec2& aPos, const std::string& aString, ImU32 aColor) -> VOID
+	{
+		auto vList = ImGui::GetBackgroundDrawList();
+		vList->AddText(aPos, aColor, aString.data());
+	}
+
+	auto D3DOverlay::IsInScrren(const ImVec2& aPos) -> BOOLEAN
+	{
+		return !(aPos.x > m_vRenderWidth || aPos.x<0 || aPos.y>m_vRenderHeight || aPos.y < 0);
 	}
 
 	auto D3DOverlay::SetUserRender(const _D3DOVERLAY_USER_RENDER& aUserRender) -> VOID

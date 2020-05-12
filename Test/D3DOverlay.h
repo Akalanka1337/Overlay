@@ -58,6 +58,11 @@ namespace X2295
 		static auto MsgLoop()->BOOLEAN;
 		static auto AttachWindow(const HWND aWnd)->BOOLEAN;
 		static auto DrawCrossHair(const FLOAT aSize, ImU32 aColor)->VOID;
+		static auto DrawEspBox(const ImVec2& aPos, const FLOAT aWidth, const FLOAT aHeight, ImU32 aColor, const FLOAT aLineWidth=2.f)->VOID;
+		static auto DrawLine(const ImVec2& aPoint1, const ImVec2 aPoint2,ImU32 aColor, const FLOAT aLineWidth=2.f)->VOID;
+		static auto DrawCircle(const ImVec2& aPoint, const FLOAT aR, ImU32 aColor, const FLOAT aLineWidth=2.f)->VOID;
+		static auto DrawString(const ImVec2& aPos, const std::string& aString, ImU32 aColor)->VOID;
+		static auto IsInScrren(const ImVec2& aPos)->BOOLEAN;
 	};
 }
 
